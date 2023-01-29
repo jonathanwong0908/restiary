@@ -1,22 +1,37 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity, KeyboardAvoidingView, StatusBar } from 'react-native';
 import { COLORS } from '../constants/theme';
-import { userSignup } from '../api/userApi';
+import { userSignup, userLogin } from '../api/userApi';
+import { setLogin } from '../store/authSlice';
+import { useDispatch } from 'react-redux';
 
 const AuthForm = ({ screen }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  async function handleSubmit() {
+  async function handleSignup() {
     if (!username.length || !password.length) return;
     const response = await userSignup({ username, password });
-    console.log(response.data);
     if (response.status == 200) {
       navigation.navigate("Login");
     }
+  }
+
+  async function handleLogin() {
+    if (!username.length || !password.length) return;
+    const response = await userLogin({ username, password });
+    let { token, user } = response.data;
+    if (!user || !token) return;
+    dispatch(setLogin({ token, user }));
+    token = JSON.stringify(token);
+    user = JSON.stringify(user);
+    await AsyncStorage.setItem("token", token);
+    await AsyncStorage.setItem("user", user);
   }
 
   return (
@@ -38,7 +53,10 @@ const AuthForm = ({ screen }) => {
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={screen === "signup" ? handleSignup : handleLogin}
+        >
           <Text style={{ color: "white" }}>{screen === "login" ? "Login" : "Sign Up"}</Text>
         </TouchableOpacity>
         <View style={{ flexDirection: "row", alignSelf: "center" }}>

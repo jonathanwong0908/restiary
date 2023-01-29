@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { SERVER } from "@env";
 
 const initialState = {
-  isAuthenticated: null,
+  isAuthenticated: false,
   token: null,
   user: null
 }
