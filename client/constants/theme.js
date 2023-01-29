@@ -1,9 +1,9 @@
 export const COLORS = {
-  "primary-500": "#52b788",
-  "primary-400": "#74c69d",
-  "primary-300": "#95d5b2",
-  "primary-200": "#b7e4c7",
-  "primary-100": "#d8f3dc",
+  "primary-500": "#1a759f",
+  "primary-400": "#168aad",
+  "primary-300": "#34a0a4",
+  "primary-200": "#52b69a",
+  "primary-100": "#76c893",
 
   "neutral-900": "#111111",
   "neutral-800": "#232323",
@@ -20,4 +20,13 @@ export const SIZES = {
   m: 16,
   l: 18,
   xl: 24
+}
+
+export const GENERAL = {
+  mainContainer: {
+    flex: 1,
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: COLORS['neutral-700'],
+  }
 }

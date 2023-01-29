@@ -70,7 +70,7 @@ const AuthForm = ({ screen }) => {
   )
 }
 
-export default AuthForm
+export default AuthForm;
 
 const styles = StyleSheet.create({
   container: {
