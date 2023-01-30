@@ -1,34 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import * as Location from "expo-location";
+import { useNavigation } from '@react-navigation/native';
 import { COLORS, GENERAL, SIZES } from '../constants/theme';
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import Map from '../components/Map';
+import DatePicker from '../components/DatePicker';
 
 const AddEntryScreen = () => {
-  const [isLoadingCurrentLocation, setIsLoadingCurrentLocation] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [currentRestaurant, setCurrentRestaurant] = useState(null);
+  const [restaurantName, setRestaurantName] = useState("");
+  const [restaurantLocation, setRestaurantLocation] = useState(null);
 
-  useEffect(() => {
-    const getLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log("no permission")
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
-      setCurrentLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude
-      });
-      setIsLoadingCurrentLocation(false);
-    }
-    getLocation();
-    console.log(currentLocation);
-  }, []);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
@@ -45,7 +28,11 @@ const AddEntryScreen = () => {
           language: "en"
         }}
         onPress={(data, details = null) => {
-          console.log(data.description, details.geometry.location);
+          setRestaurantName(data.description);
+          setRestaurantLocation({
+            lat: details.geometry.location.lat,
+            lng: details.geometry.location.lng
+          })
         }}
         fetchDetails={true}
         returnKeyType={"search"}
@@ -55,13 +42,11 @@ const AddEntryScreen = () => {
       />
 
       <View style={styles.mapContainer}>
-        {isLoadingCurrentLocation
-          ? <Text>Loading</Text>
-          : <Map
-            lat={currentLocation.lat}
-            lng={currentLocation.lng}
-            mode="addEntry"
-          />}
+        <Map
+          mode="addEntry"
+          restaurantLocation={restaurantLocation}
+          setRestaurantLocation={setRestaurantLocation}
+        />
       </View>
 
       <Text style={{ color: "white", marginTop: 15, fontSize: SIZES.m }}>
@@ -69,10 +54,14 @@ const AddEntryScreen = () => {
       </Text>
 
       <TextInput
-        style={{
-          width: "92.5%"
-        }}
+        style={styles.manualInput}
+        placeholder="Restaurant name"
+        value={restaurantName}
+        onChangeText={text => setRestaurantName(text)}
       />
+
+      <DatePicker />
+
     </SafeAreaView>
   )
 }
@@ -87,11 +76,24 @@ const styles = StyleSheet.create({
     color: COLORS['neutral-100']
   },
   mapContainer: {
-    height: "50%",
+    height: "40%",
     width: "92.5%"
+  },
+  manualInput: {
+    width: "92.5%",
+    padding: 15,
+    marginTop: 15,
+    borderRadius: 25,
+    fontSize: SIZES.m,
+    backgroundColor: COLORS['neutral-100']
+  },
+  nextIcon: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
+    width: 60,
+    height: 60,
+    borderRadius: "50%",
+    backgroundColor: COLORS['primary-500'],
   }
 })
-
-// get location
-// set map location
-// onpress add marker(draggable)

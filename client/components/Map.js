@@ -1,20 +1,36 @@
-import { StyleSheet, Text, View } from 'react-native'
-import MapView from 'react-native-maps';
+import { useState } from 'react';
+import MapView, { Marker } from 'react-native-maps';
 
-const Map = ({ lat, lng, mode }) => {
+const Map = ({ mode, restaurantLocation, setRestaurantLocation }) => {
+  const [markers, setMarkers] = useState(() => {
+    if (restaurantLocation) {
+      return [{ lat: restaurantLocation.lat, lng: restaurantLocation.lng }]
+    }
+    return [];
+  });
+
+  function handleMapPress(event) {
+    const coordinates = event.nativeEvent.coordinate;
+    if (mode === "addEntry") {
+      setMarkers([{ lat: coordinates.latitude, lng: coordinates.longitude }]);
+      setRestaurantLocation({ lat: coordinates.latitude, lng: coordinates.longitude });
+    }
+  }
+
   return (
     <MapView
       style={{ flex: 1, borderRadius: 18 }}
-      initialRegion={{
-        latitude: lat,
-        longitude: lng,
-        latitudeDelta: 0.09,
-        longitudeDelta: 0.04
-      }}
-    />
+      onPress={handleMapPress}
+    >
+      {mode === "addEntry" && markers.length ? (
+        <Marker
+          coordinate={{ latitude: markers[0].lat, longitude: markers[0].lng }}
+          draggable
+        />)
+        : <></>
+      }
+    </MapView>
   )
 }
 
-export default Map
-
-const styles = StyleSheet.create({})
+export default Map;
