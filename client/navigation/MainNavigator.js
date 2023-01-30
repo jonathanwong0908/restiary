@@ -7,8 +7,8 @@ import { View, StyleSheet } from "react-native";
 import SettingScreen from "../screens/SettingScreen";
 import CollectionScreen from "../screens/CollectionScreen";
 import CalendarScreen from "../screens/CalendarScreen";
-import AddEntryScreen from "../screens/AddEntryScreen";
 import EntriesStack from "./EntriesStack";
+import AddEntryStack from "./AddEntryStack";
 import { COLORS } from "../constants/theme";
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +23,7 @@ const MainNavigator = () => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
         >
           <Tab.Navigator
-            initialRouteName="Entries"
+            initialRouteName="EntriesStack"
             screenOptions={{
               headerShown: false,
               tabBarActiveTintColor: COLORS["neutral-100"],
@@ -35,10 +35,11 @@ const MainNavigator = () => {
             }}
           >
             <Tab.Screen
-              name="Entries"
+              name="EntriesStack"
               component={EntriesStack}
               options={{
-                tabBarIcon: ({ color }) => (<Icon name="book-marker-outline" type="material-community" color={color} />)
+                tabBarIcon: ({ color }) => (<Icon name="book-marker-outline" type="material-community" color={color} />),
+                tabBarLabel: "Entries"
               }}
             />
             <Tab.Screen
@@ -50,7 +51,7 @@ const MainNavigator = () => {
             />
             <Tab.Screen
               name="AddEntry"
-              component={AddEntryScreen}
+              component={AddEntryStack}
               options={{
                 tabBarIcon: () => (
                   <View style={styles.addIcon}>

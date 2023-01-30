@@ -1,15 +1,15 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { COLORS } from '../constants/theme'
 
-const TouchableCard = ({ children, onPress }) => {
+const Card = ({ children, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <View style={styles.container} onPress={onPress}>
       {children}
-    </TouchableOpacity>
+    </View>
   )
 }
 
-export default TouchableCard;
+export default Card;
 
 const styles = StyleSheet.create({
   container: {
