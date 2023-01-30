@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useNavigation } from '@react-navigation/native';
 import { COLORS, GENERAL, SIZES } from '../constants/theme';
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import Map from '../components/Map';
 import DatePicker from '../components/DatePicker';
+import Rating from '../components/Rating';
 
 const AddEntryScreen = () => {
   const [restaurantName, setRestaurantName] = useState("");
   const [restaurantLocation, setRestaurantLocation] = useState(null);
-
-  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
@@ -54,14 +52,14 @@ const AddEntryScreen = () => {
       </Text>
 
       <TextInput
-        style={styles.manualInput}
+        style={styles.input}
         placeholder="Restaurant name"
         value={restaurantName}
         onChangeText={text => setRestaurantName(text)}
       />
 
-      <DatePicker />
-
+      <DatePicker mode="addEntry" />
+      <Rating />
     </SafeAreaView>
   )
 }
@@ -79,10 +77,10 @@ const styles = StyleSheet.create({
     height: "40%",
     width: "92.5%"
   },
-  manualInput: {
+  input: {
     width: "92.5%",
     padding: 15,
-    marginTop: 15,
+    marginVertical: 15,
     borderRadius: 25,
     fontSize: SIZES.m,
     backgroundColor: COLORS['neutral-100']
