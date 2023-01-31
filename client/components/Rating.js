@@ -1,10 +1,10 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Icon } from "@rneui/themed";
-import Card from './Card';
-import { useState } from 'react';
-import { COLORS, SIZES } from '../constants/theme';
-import { useDispatch } from 'react-redux';
 import { setRestaurantRating } from '../store/addRestaurantSlice';
+import { COLORS, SIZES } from '../constants/theme';
+import Card from './Card';
 
 const ICONS = [
   "emoticon-cool-outline",

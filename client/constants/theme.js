@@ -26,7 +26,6 @@ export const GENERAL = {
   mainContainer: {
     flex: 1,
     alignItems: "center",
-    width: "100%",
     backgroundColor: COLORS['neutral-700'],
   }
 }

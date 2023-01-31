@@ -1,11 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Price from '../components/Price'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const CollectionScreen = () => {
   return (
-    <View>
-      <Text>CollectionScreen</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ width: "100%" }} contentContainerStyle={{ alignItems: "center" }}>
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+        <Price />
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
