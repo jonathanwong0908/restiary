@@ -7,6 +7,8 @@ import Map from '../components/Map';
 import DatePicker from '../components/DatePicker';
 import Rating from '../components/Rating';
 import Price from '../components/Price';
+import Comment from '../components/Comment';
+import AddPhoto from '../components/AddPhoto';
 
 const AddEntryScreen = () => {
   const [restaurantName, setRestaurantName] = useState("");
@@ -61,8 +63,10 @@ const AddEntryScreen = () => {
         />
 
         <DatePicker mode="addEntry" />
-        <Rating mode="addEntry" />
         <Price />
+        <Rating mode="addEntry" />
+        <Comment />
+        <AddPhoto />
       </ScrollView>
     </SafeAreaView>
   )

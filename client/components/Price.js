@@ -28,7 +28,7 @@ const Price = () => {
   )
 }
 
-export default Price
+export default Price;
 
 const styles = StyleSheet.create({
   container: {
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.m,
     padding: 10,
     width: "25%",
-    height: 40,
     textAlign: "right",
     borderRadius: 15,
     backgroundColor: COLORS['neutral-500'],
