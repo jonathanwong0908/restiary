@@ -1,12 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AddEntryScreen from "../screens/AddEntryScreen";
+import SelectLocationScreen from "../screens/SelectLocationScreen";
+import AddDetailsScreen from "../screens/AddDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
 const AddEntryStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Entries" >
-      <Stack.Screen name="Entries" component={AddEntryScreen} />
+      <Stack.Screen name="SelectLocation" component={SelectLocationScreen} />
+      <Stack.Screen name="AddDetails" component={AddDetailsScreen} />
     </Stack.Navigator>
   )
 }

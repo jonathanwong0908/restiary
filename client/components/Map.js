@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 
 const Map = ({ mode, restaurantLocation, setRestaurantLocation }) => {
@@ -8,6 +8,11 @@ const Map = ({ mode, restaurantLocation, setRestaurantLocation }) => {
     }
     return [];
   });
+
+  useEffect(() => {
+    if (!restaurantLocation) return;
+    setMarkers([{ lat: restaurantLocation.lat, lng: restaurantLocation.lng }]);
+  }, [restaurantLocation])
 
   function handleMapPress(event) {
     const coordinates = event.nativeEvent.coordinate;
