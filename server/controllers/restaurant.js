@@ -18,7 +18,22 @@ exports.postAddRestaurant = async (req, res) => {
     await newRestaurant.save();
     user.restaurants = [newRestaurant.id, ...user.restaurants];
     await user.save();
-    res.status(200).json({ message: "success" });
+    await user.populate("restaurants");
+    const restaurants = user.restaurants;
+    res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+exports.getRestaurants = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user.restaurants.length) return res.json([]);
+    await user.populate("restaurants");
+    const restaurants = user.restaurants;
+    res.status(200).json(restaurants);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -11,10 +11,9 @@ import AddPhoto from '../components/AddPhoto';
 import DatePicker from "../components/DatePicker";
 import { addRestaurant } from '../api/restaurantApi';
 import { resetAllNewRestaurantState } from "../store/addRestaurantSlice";
+import { setRestaurants } from '../store/restaurantSlice';
 
 const AddDetailsScreen = () => {
-  const storedName = useSelector(state => state.addRestaurant.name);
-  const storedLocation = useSelector(state => state.addRestaurant.location);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
@@ -26,6 +25,8 @@ const AddDetailsScreen = () => {
     const response = await addRestaurant(newRestaurantDetails);
     if (response.status == 200) {
       dispatch(resetAllNewRestaurantState());
+      const restaurants = response.data;
+      dispatch(setRestaurants(restaurants));
       navigation.navigate("SelectLocation");
     };
   }

@@ -5,7 +5,7 @@ export const addRestaurant = async data => {
   try {
     let token = await AsyncStorage.getItem("token");
     token = JSON.parse(token);
-    const result = await ApiManager("/restaurant/addNewRestaurant", {
+    const response = await ApiManager("/restaurant/addNewRestaurant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +14,25 @@ export const addRestaurant = async data => {
       },
       data: data
     })
-    return result;
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getRestaurants = async () => {
+  try {
+    let token = await AsyncStorage.getItem("token");
+    token = JSON.parse(token);
+    const response = await ApiManager("/restaurant/getRestaurants", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response;
   } catch (error) {
     console.log(error);
   }

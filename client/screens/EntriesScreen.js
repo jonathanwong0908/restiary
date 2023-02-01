@@ -1,9 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from "@rneui/themed";
 import { COLORS, SIZES, GENERAL } from '../constants/theme';
-import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const EntriesScreen = () => {
+  const restaurants = useSelector(state => state.restaurant.restaurants);
+
   const navigation = useNavigation();
 
   return (
