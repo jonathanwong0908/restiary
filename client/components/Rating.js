@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Icon } from "@rneui/themed";
-import { setRestaurantRating } from '../store/addRestaurantSlice';
+import { setNewRestaurantRating } from '../store/addRestaurantSlice';
 import { COLORS, SIZES } from '../constants/theme';
 import Card from './Card';
 
@@ -15,7 +15,10 @@ const ICONS = [
 ];
 
 const Rating = () => {
-  const [selected, setSelected] = useState(null);
+  const storedRating = useSelector(state => state.addRestaurant.rating);
+  const [selected, setSelected] = useState(() => {
+    return storedRating ? storedRating : null;
+  });
 
   const dispatch = useDispatch();
 
@@ -26,8 +29,8 @@ const Rating = () => {
         {ICONS.map(icon => (
           <TouchableOpacity
             onPress={() => {
-              setSelected(icon);
-              dispatch(setRestaurantRating(ICONS.indexOf(icon)));
+              setSelected(ICONS.indexOf(icon));
+              dispatch(setNewRestaurantRating(ICONS.indexOf(icon)));
             }}
             key={icon}
           >
@@ -35,7 +38,7 @@ const Rating = () => {
               name={icon}
               type="material-community"
               size={65}
-              color={selected === icon && COLORS['primary-500']}
+              color={selected === ICONS.indexOf(icon) && COLORS['primary-500']}
             />
           </TouchableOpacity>
         ))}

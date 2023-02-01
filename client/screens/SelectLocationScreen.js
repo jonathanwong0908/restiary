@@ -1,23 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from "@rneui/themed";
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS, GENERAL, SIZES } from '../constants/theme';
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import Map from '../components/Map';
+import { setNewRestaurantName, setNewRestaurantLocation } from '../store/addRestaurantSlice';
 
 const AddEntryScreen = () => {
-  const [restaurantName, setRestaurantName] = useState("");
-  const [restaurantLocation, setRestaurantLocation] = useState(null);
+  const storedName = useSelector(state => state.addRestaurant.name);
+  const storedLocation = useSelector(state => state.addRestaurant.location);
+
+  const [restaurantName, setRestaurantName] = useState(() => {
+    return storedName ? storedName : "";
+  });
+  const [restaurantLocation, setRestaurantLocation] = useState(() => {
+    return storedLocation ? storedLocation : null;
+  });
+
+  useEffect(() => {
+    setRestaurantName(storedName);
+  }, [storedName]);
+
+  useEffect(() => {
+    setRestaurantLocation(storedLocation);
+  }, [storedLocation]);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   function goToAddDetailsPage() {
     if (!restaurantName || !restaurantLocation) return;
-    navigation.navigate("AddDetails", {
-      restaurantName, restaurantLocation
-    })
+    dispatch(setNewRestaurantName(restaurantName));
+    dispatch(setNewRestaurantLocation(restaurantLocation));
+    navigation.navigate("AddDetails")
   }
 
   return (
@@ -34,7 +52,8 @@ const AddEntryScreen = () => {
         }}
         query={{
           key: GOOGLE_MAPS_API_KEY,
-          language: "en"
+          language: "en",
+          components: "country:hk"
         }}
         onPress={(data, details = null) => {
           setRestaurantName(data.description);

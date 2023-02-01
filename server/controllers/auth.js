@@ -33,3 +33,12 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+
+exports.authorizeUser = (req, res, next) => {
+  let token = req.headers.authorization;
+  token = token.replace("Bearer ", "");
+  const verify = jwt.verify(token, process.env.JWT_SECRET);
+  if (!verify) return res.status(401).json({ message: "Not authorized" });
+  req.user = verify
+  next();
+}

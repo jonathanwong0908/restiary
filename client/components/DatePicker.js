@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Card from "./Card";
-import { setRestaurantDate } from '../store/addRestaurantSlice';
+import { setNewRestaurantDate } from '../store/addRestaurantSlice';
 import { COLORS, SIZES } from '../constants/theme';
 
 const DatePicker = ({ mode }) => {
@@ -14,7 +14,7 @@ const DatePicker = ({ mode }) => {
   useEffect(() => {
     if (mode === "addEntry") {
       const stringDate = date.toString()
-      dispatch(setRestaurantDate(stringDate));
+      dispatch(setNewRestaurantDate(stringDate));
     }
   }, [])
 
@@ -23,7 +23,7 @@ const DatePicker = ({ mode }) => {
     setDate(currentDate);
     if (mode === "addEntry") {
       const stringDate = currentDate.toString();
-      dispatch(setRestaurantDate(stringDate));
+      dispatch(setNewRestaurantDate(stringDate));
     }
   }
 

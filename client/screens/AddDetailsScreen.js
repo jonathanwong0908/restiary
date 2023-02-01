@@ -1,5 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet, Button, View, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES, GENERAL } from '../constants/theme';
@@ -8,12 +9,26 @@ import Rating from '../components/Rating';
 import Comment from '../components/Comment';
 import AddPhoto from '../components/AddPhoto';
 import DatePicker from "../components/DatePicker";
+import { addRestaurant } from '../api/restaurantApi';
+import { resetAllNewRestaurantState } from "../store/addRestaurantSlice";
 
-const AddDetailsScreen = ({ route }) => {
+const AddDetailsScreen = () => {
+  const storedName = useSelector(state => state.addRestaurant.name);
+  const storedLocation = useSelector(state => state.addRestaurant.location);
   const navigation = useNavigation();
 
-  const restaurantLocation = route.params.restaurantLocation;
-  const restaurantName = route.params.restaurantName;
+  const dispatch = useDispatch();
+
+  const newRestaurantDetails = useSelector(state => state.addRestaurant);
+
+  console.log(newRestaurantDetails);
+  async function submitRestaurant() {
+    const response = await addRestaurant(newRestaurantDetails);
+    if (response.status == 200) {
+      dispatch(resetAllNewRestaurantState());
+      navigation.navigate("SelectLocation");
+    };
+  }
 
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
@@ -28,7 +43,7 @@ const AddDetailsScreen = ({ route }) => {
         <Comment />
         <AddPhoto />
 
-        <TouchableOpacity style={styles.addEntryButton}>
+        <TouchableOpacity style={styles.addEntryButton} onPress={submitRestaurant}>
           <Text style={{ color: COLORS['neutral-100'], fontSize: SIZES.m, marginRight: 15 }}>Add entry</Text>
           <Icon name="note-plus-outline" type="material-community" color={COLORS['neutral-100']} />
         </TouchableOpacity>

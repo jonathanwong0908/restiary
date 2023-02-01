@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
+    },
+    restaurants: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Restaurant"
     }
   },
   { timestamps: true }

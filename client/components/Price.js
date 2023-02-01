@@ -2,11 +2,14 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 import Card from './Card';
 import { COLORS, SIZES } from '../constants/theme';
-import { useDispatch } from 'react-redux';
-import { setRestaurantPrice } from '../store/addRestaurantSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNewRestaurantPrice } from '../store/addRestaurantSlice';
 
 const Price = () => {
-  const [price, setPrice] = useState(0);
+  const storedPrice = useSelector(state => state.addRestaurant.price);
+  const [price, setPrice] = useState(() => {
+    return storedPrice ? storedPrice : 0;
+  });
 
   const dispatch = useDispatch();
 
@@ -20,7 +23,7 @@ const Price = () => {
           value={price}
           onChangeText={price => {
             setPrice(price);
-            dispatch(setRestaurantPrice(price));
+            dispatch(setNewRestaurantPrice(price));
           }}
         />
       </View>

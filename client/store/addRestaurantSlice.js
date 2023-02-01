@@ -14,25 +14,28 @@ export const addRestaurantSlice = createSlice({
   name: "addRestaurant",
   initialState,
   reducers: {
-    setRestaurantName: (state, action) => {
+    setNewRestaurantName: (state, action) => {
       state.name = action.payload;
     },
-    setRestaurantLocation: (state, action) => {
+    setNewRestaurantLocation: (state, action) => {
       state.location = action.payload;
     },
-    setRestaurantDate: (state, action) => {
+    setNewRestaurantDate: (state, action) => {
       state.date = action.payload;
     },
-    setRestaurantRating: (state, action) => {
+    setNewRestaurantRating: (state, action) => {
       state.rating = action.payload;
     },
-    setRestaurantPrice: (state, action) => {
+    setNewRestaurantPrice: (state, action) => {
       state.price = action.payload;
     },
-    setRestaurantComment: (state, action) => {
+    setNewRestaurantComment: (state, action) => {
       state.comment = action.payload;
     },
-    resetAllRestaurantState: (state) => {
+    setNewRestaurantPhoto: (state, action) => {
+      state.photo = action.payload;
+    },
+    resetAllNewRestaurantState: (state) => {
       state.name = null;
       state.location = null;
       state.date = null;
@@ -45,12 +48,14 @@ export const addRestaurantSlice = createSlice({
 })
 
 export const {
-  setRestaurantName,
-  setRestaurantLocation,
-  setRestaurantDate,
-  setRestaurantRating,
-  setRestaurantPrice,
-  setRestaurantComment
+  setNewRestaurantName,
+  setNewRestaurantLocation,
+  setNewRestaurantDate,
+  setNewRestaurantRating,
+  setNewRestaurantPrice,
+  setNewRestaurantComment,
+  setNewRestaurantPhoto,
+  resetAllNewRestaurantState
 } = addRestaurantSlice.actions;
 
 export default addRestaurantSlice.reducer;

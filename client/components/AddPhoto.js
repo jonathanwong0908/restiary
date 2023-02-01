@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
-import * as ImagePicker from "expo-image-picker";
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-native-modal";
+import * as ImagePicker from "expo-image-picker";
 import { COLORS, SIZES } from '../constants/theme';
+import { setNewRestaurantPhoto } from '../store/addRestaurantSlice';
 import TouchableCard from "./TouchableCard";
 
 const AddPhoto = () => {
-  const [images, setImages] = useState([]);
+  const storedPhotos = useSelector(state => state.addRestaurant.photo);
+
+  const [images, setImages] = useState(() => {
+    return storedPhotos ? storedPhotos : [];
+  });
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setNewRestaurantPhoto(images));
+  }, [images])
 
   function toggleModal() {
     setModalVisible(!isModalVisible);
@@ -22,11 +34,9 @@ const AddPhoto = () => {
       quality: 1
     })
 
-    console.log(result);
-
-    if (!result.canceled) {
-      setImages(prevImages => [...prevImages, result.assets[0].uri]);
-    }
+    if (result.canceled) return;
+    const imageUri = result.assets[0].uri;
+    setImages(prevImages => [...prevImages, imageUri]);
   }
 
   const deleteImage = (imageUri) => {
@@ -42,7 +52,7 @@ const AddPhoto = () => {
       </TouchableCard>
 
       {images.length > 0 ? images.map(image => (
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity key={image} onPress={() => {
           toggleModal();
           setSelectedImage(image);
         }}>
