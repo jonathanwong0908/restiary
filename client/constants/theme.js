@@ -29,3 +29,12 @@ export const GENERAL = {
     backgroundColor: COLORS['neutral-700'],
   }
 }
+
+export const RATING_ICONS =
+  [
+    "emoticon-cool-outline",
+    "emoticon-happy-outline",
+    "emoticon-neutral-outline",
+    "emoticon-cry-outline",
+    "emoticon-dead-outline"
+  ];
