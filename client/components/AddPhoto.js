@@ -7,19 +7,28 @@ import { COLORS, SIZES } from '../constants/theme';
 import { setNewRestaurantPhoto } from '../store/addRestaurantSlice';
 import TouchableCard from "./TouchableCard";
 
-const AddPhoto = () => {
+const AddPhoto = ({ mode }, photos = null) => {
   const storedPhotos = useSelector(state => state.addRestaurant.photo);
 
   const [images, setImages] = useState(() => {
-    return storedPhotos ? storedPhotos : [];
+    if (storedPhotos && mode === "addEntry") {
+      return storedPhotos;
+    }
+    if (photos && mode === "editViewRestaurant") {
+      return photos;
+    }
+    return [];
   });
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setNewRestaurantPhoto(images));
+    if (mode === "addEntry") {
+      dispatch(setNewRestaurantPhoto(images));
+    }
   }, [images])
 
   function toggleModal() {

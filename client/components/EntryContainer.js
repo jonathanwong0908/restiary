@@ -2,16 +2,23 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Icon } from "@rneui/themed";
 import TouchableCard from './TouchableCard';
 import { RATING_ICONS, COLORS, SIZES } from '../constants/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const EntryContainer = ({ restaurant }) => {
+  const navigation = useNavigation();
+
   const restaurantName = restaurant.name.split(",")[0];
   const visitedDate = getFormattedDate(new Date(restaurant.visitedDate));
   const icon = RATING_ICONS[restaurant.rating];
   const photos = restaurant.photos;
 
+  function handleRestaurantPress() {
+    navigation.navigate("RestaurantEntry", restaurant);
+  }
+
   return (
     <View style={styles.mainContainer}>
-      <TouchableCard>
+      <TouchableCard onPress={handleRestaurantPress}>
         <View style={styles.infoContainer}>
           <View style={{ flexDirection: "row", width: "85%", justifyContent: "space-between" }}>
             <Icon
@@ -34,7 +41,6 @@ const EntryContainer = ({ restaurant }) => {
               name="arrow-right"
               type="material-community"
               color={COLORS['neutral-100']}
-              style
             />
           </View>
         </View>

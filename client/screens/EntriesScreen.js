@@ -19,7 +19,7 @@ const EntriesScreen = () => {
       </TouchableOpacity>
       <FlatList
         style={{ width: "92.5%" }}
-        contentContainerStyle={{ width: "100%" }}
+        contentContainerStyle={{ width: "100%", paddingBottom: 50 }}
         data={restaurants}
         renderItem={({ item }) => <EntryContainer restaurant={item} />}
         keyExtractor={item => item._id}

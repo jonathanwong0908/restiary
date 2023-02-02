@@ -27,7 +27,7 @@ const AddDetailsScreen = () => {
       dispatch(resetAllNewRestaurantState());
       const restaurants = response.data;
       dispatch(setRestaurants(restaurants));
-      navigation.navigate("SelectLocation");
+      navigation.navigate("EntriesStack");
     };
   }
 
@@ -42,7 +42,7 @@ const AddDetailsScreen = () => {
         <Price />
         <Rating mode="addEntry" />
         <Comment />
-        <AddPhoto />
+        <AddPhoto mode="addEntry" />
 
         <TouchableOpacity style={styles.addEntryButton} onPress={submitRestaurant}>
           <Text style={{ color: COLORS['neutral-100'], fontSize: SIZES.m, marginRight: 15 }}>Add entry</Text>
