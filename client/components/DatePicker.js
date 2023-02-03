@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Card from "./Card";
+import Card from "./UI/Card";
 import { setNewRestaurantDate } from '../store/addRestaurantSlice';
 import { COLORS, SIZES } from '../constants/theme';
 
-const DatePicker = ({ mode }) => {
-  const [date, setDate] = useState(new Date());
+const DatePicker = ({ mode, visitedDate = null, setVisitedDate = null }) => {
+  const [date, setDate] = useState(() => {
+    if (mode === "addEntry") {
+      return new Date();
+    }
+    return new Date(visitedDate);
+  });
 
   const dispatch = useDispatch();
 
@@ -20,10 +25,13 @@ const DatePicker = ({ mode }) => {
 
   function handleChangeDate(event, selectedDate) {
     const currentDate = selectedDate || date;
+    const stringDate = currentDate.toString();
     setDate(currentDate);
     if (mode === "addEntry") {
-      const stringDate = currentDate.toString();
       dispatch(setNewRestaurantDate(stringDate));
+    }
+    if (mode === "editRestaurant") {
+      setVisitedDate(stringDate);
     }
   }
 

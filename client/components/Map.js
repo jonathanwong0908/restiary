@@ -22,9 +22,21 @@ const Map = ({ mode, restaurantLocation, setRestaurantLocation = null }) => {
 
   function handleMapPress(event) {
     const coordinates = event.nativeEvent.coordinate;
+    const lat = coordinates.latitude;
+    const lng = coordinates.longitude;
     if (mode === "addEntry") {
-      setMarkers([{ lat: coordinates.latitude, lng: coordinates.longitude }]);
-      setRestaurantLocation({ lat: coordinates.latitude, lng: coordinates.longitude });
+      setMarkers([{ lat, lng }]);
+      setRestaurantLocation({ lat, lng })
+    }
+  }
+
+  function handleDragMarker(event) {
+    const coordinates = event.nativeEvent.coordinate;
+    const lat = coordinates.latitude;
+    const lng = coordinates.longitude;
+    if (mode === "addEntry" || mode === "editRestaurant") {
+      setMarkers([{ lat, lng }]);
+      setRestaurantLocation({ lat, lng })
     }
   }
 
@@ -33,17 +45,11 @@ const Map = ({ mode, restaurantLocation, setRestaurantLocation = null }) => {
       style={{ flex: 1, borderRadius: 18 }}
       onPress={handleMapPress}
     >
-      {mode === "addEntry" && markers.length ? (
+      {(mode === "addEntry" || mode === "editRestaurant" || mode === "viewRestaurant") && markers.length ? (
         <Marker
+          draggable={mode === "addEntry" || mode === "editRestaurant"}
           coordinate={{ latitude: markers[0].lat, longitude: markers[0].lng }}
-          draggable
-        />)
-        : <></>
-      }
-      {mode === "editViewRestaurant" && markers.length ? (
-        <Marker
-          coordinate={{ latitude: markers[0].lat, longitude: markers[0].lng }}
-          draggable
+          onDragEnd={handleDragMarker}
         />)
         : <></>
       }

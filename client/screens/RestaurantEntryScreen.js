@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon } from "@rneui/themed";
 import { GENERAL, COLORS, SIZES, RATING_ICONS } from '../constants/theme';
 import Map from '../components/Map';
+import TextIconButton from '../components/UI/TextIconButton';
 
 const RestaurantEntryScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -12,6 +13,10 @@ const RestaurantEntryScreen = ({ route }) => {
   const icon = RATING_ICONS[restaurant.rating];
   const visitedDate = getFormattedDate(new Date(restaurant.visitedDate));
   const photos = restaurant.photos;
+
+  function goToEditEntryScreen() {
+    navigation.navigate("EditEntry", restaurant);
+  }
 
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
@@ -26,13 +31,16 @@ const RestaurantEntryScreen = ({ route }) => {
             <Text style={{ marginLeft: 50, fontSize: SIZES.m, color: COLORS['neutral-100'] }}>{`$${restaurant.price}`}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.editButton}>
-          <Text style={{ color: COLORS['neutral-100'], fontSize: SIZES.m, marginRight: 15 }}>Edit</Text>
-          <Icon name="pencil-outline" type="material-community" color={COLORS['neutral-100']} />
-        </TouchableOpacity>
+        <TextIconButton
+          backgroundColor={COLORS['primary-500']}
+          name="pencil-outline"
+          text="Edit"
+          iconColor={COLORS['neutral-100']}
+          onPress={goToEditEntryScreen}
+        />
       </View>
       <View style={styles.mapContainer}>
-        <Map mode="editViewRestaurant" restaurantLocation={restaurant.location} />
+        <Map mode="viewRestaurant" restaurantLocation={restaurant.location} />
       </View>
       <ScrollView style={{ width: "92.5%%", marginTop: 35 }} contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.infoContainer}>
@@ -44,7 +52,7 @@ const RestaurantEntryScreen = ({ route }) => {
         </View>
         {photos.length > 0 ? photos.map(imageUri => {
           return (
-            <Image source={{ uri: imageUri }} style={styles.image} key={imageUri} />
+            <Image source={{ uri: imageUri }} style={GENERAL.image} key={imageUri} />
           )
         }) : <></>}
       </ScrollView>
@@ -95,12 +103,6 @@ const styles = StyleSheet.create({
     borderRadius: "15",
     backgroundColor: COLORS['neutral-600'],
     width: "100%"
-  },
-  image: {
-    width: 250,
-    height: 250,
-    borderRadius: 15,
-    marginTop: 30,
   }
 })
 

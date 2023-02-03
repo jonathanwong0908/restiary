@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useNavigation } from '@react-navigation/native';
-import { Icon } from "@rneui/themed";
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS, GENERAL, SIZES } from '../constants/theme';
 import { GOOGLE_MAPS_API_KEY } from "@env";
 import Map from '../components/Map';
 import { setNewRestaurantName, setNewRestaurantLocation } from '../store/addRestaurantSlice';
+import TextIconButton from '../components/UI/TextIconButton';
 
 const AddEntryScreen = () => {
   const storedName = useSelector(state => state.addRestaurant.name);
@@ -88,10 +88,15 @@ const AddEntryScreen = () => {
         onChangeText={text => setRestaurantName(text)}
       />
 
-      <TouchableOpacity style={styles.nextButton} onPress={goToAddDetailsPage} >
-        <Text style={{ color: COLORS['neutral-100'], fontSize: SIZES.m, marginRight: 15 }}>Next</Text>
-        <Icon name="arrow-right" type="material-community" color={COLORS['neutral-100']} />
-      </TouchableOpacity>
+      <TextIconButton
+        backgroundColor={COLORS['primary-500']}
+        iconColor={COLORS['neutral-100']}
+        name="arrow-right"
+        text="Next"
+        style={styles.nextButton}
+        onPress={goToAddDetailsPage}
+      />
+
     </SafeAreaView>
   )
 }
@@ -118,13 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS['neutral-100']
   },
   nextButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginTop: 30,
     marginBottom: 40,
-    padding: 15,
-    borderRadius: 15,
-    backgroundColor: COLORS['primary-500']
   },
 })

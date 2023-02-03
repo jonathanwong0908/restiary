@@ -1,17 +1,30 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
-import Card from './Card';
-import { COLORS, SIZES } from '../constants/theme';
 import { useDispatch, useSelector } from 'react-redux';
+import Card from './UI/Card';
+import { COLORS, SIZES } from '../constants/theme';
 import { setNewRestaurantPrice } from '../store/addRestaurantSlice';
 
-const Price = () => {
+const Price = ({ mode, visitedRestaurantPrice = null, setVisitedRestaurantPrice = null }) => {
   const storedPrice = useSelector(state => state.addRestaurant.price);
   const [price, setPrice] = useState(() => {
-    return storedPrice ? storedPrice : 0;
+    if (mode === "addEntry") {
+      return storedPrice ? storedPrice : 0;
+    }
+    return visitedRestaurantPrice.toString();
   });
 
   const dispatch = useDispatch();
+
+  function handleChangeText(price) {
+    setPrice(price);
+    if (mode === "addEntry") {
+      dispatch(setNewRestaurantPrice(price));
+    }
+    if (mode === "editRestaurant") {
+      setVisitedRestaurantPrice(price);
+    }
+  }
 
   return (
     <Card>
@@ -21,10 +34,7 @@ const Price = () => {
           style={styles.input}
           keyboardType="numeric"
           value={price}
-          onChangeText={price => {
-            setPrice(price);
-            dispatch(setNewRestaurantPrice(price));
-          }}
+          onChangeText={handleChangeText}
         />
       </View>
     </Card>

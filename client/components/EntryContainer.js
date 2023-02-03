@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Icon } from "@rneui/themed";
-import TouchableCard from './TouchableCard';
+import TouchableCard from './UI/TouchableCard';
 import { RATING_ICONS, COLORS, SIZES } from '../constants/theme';
 import { useNavigation } from '@react-navigation/native';
 

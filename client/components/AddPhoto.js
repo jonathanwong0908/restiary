@@ -1,23 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-native-modal";
 import * as ImagePicker from "expo-image-picker";
-import { COLORS, SIZES } from '../constants/theme';
+import { COLORS, GENERAL, SIZES } from '../constants/theme';
 import { setNewRestaurantPhoto } from '../store/addRestaurantSlice';
-import TouchableCard from "./TouchableCard";
+import TouchableCard from "./UI/TouchableCard";
 
-const AddPhoto = ({ mode }, photos = null) => {
+const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPhotos = null }) => {
   const storedPhotos = useSelector(state => state.addRestaurant.photo);
 
   const [images, setImages] = useState(() => {
-    if (storedPhotos && mode === "addEntry") {
-      return storedPhotos;
+    if (mode === "addEntry") {
+      return storedPhotos ? storedPhotos : [];
     }
-    if (photos && mode === "editViewRestaurant") {
-      return photos;
-    }
-    return [];
+    return visitedRestaurantPhotos;
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -25,17 +22,11 @@ const AddPhoto = ({ mode }, photos = null) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (mode === "addEntry") {
-      dispatch(setNewRestaurantPhoto(images));
-    }
-  }, [images])
-
   function toggleModal() {
     setModalVisible(!isModalVisible);
   }
 
-  const pickImage = async () => {
+  async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -46,12 +37,20 @@ const AddPhoto = ({ mode }, photos = null) => {
     if (result.canceled) return;
     const imageUri = result.assets[0].uri;
     setImages(prevImages => [...prevImages, imageUri]);
+    setVisitedRestaurantPhotos(prevImage => [...prevImage, imageUri]);
   }
 
-  const deleteImage = (imageUri) => {
-    images.length <= 1 ? setImages([]) : setImages(images => images.filter(image => image !== imageUri));
-    setModalVisible(false);
+  function deleteImage(imageUri) {
+    const newImages = images.length <= 1 ? [] : images => images.filter(image => image !== imageUri);
+    setImages(newImages)
+    if (mode === "addEntry") {
+      dispatch(setNewRestaurantPhoto(newImages));
+    }
+    if (mode === "editRestaurant") {
+      setVisitedRestaurantPhotos(newImages)
+    }
     setSelectedImage(null);
+    setModalVisible(false);
   }
 
   return (
@@ -65,7 +64,7 @@ const AddPhoto = ({ mode }, photos = null) => {
           toggleModal();
           setSelectedImage(image);
         }}>
-          <Image source={{ uri: image }} style={styles.image} key={image} />
+          <Image source={{ uri: image }} style={GENERAL.image} key={image} />
         </TouchableOpacity>
       ))
         : <></>
@@ -97,11 +96,5 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: COLORS['neutral-700'],
     opacity: 0.6
-  },
-  image: {
-    width: 250,
-    height: 250,
-    borderRadius: 15,
-    marginTop: 15
   }
 })

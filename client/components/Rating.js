@@ -4,15 +4,29 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Icon } from "@rneui/themed";
 import { setNewRestaurantRating } from '../store/addRestaurantSlice';
 import { COLORS, SIZES, RATING_ICONS } from '../constants/theme';
-import Card from './Card';
+import Card from './UI/Card';
 
-const Rating = () => {
+const Rating = ({ mode, visitedRestaurantRating = null, setVisitedRestaurantRating = null }) => {
   const storedRating = useSelector(state => state.addRestaurant.rating);
   const [selected, setSelected] = useState(() => {
-    return storedRating ? storedRating : null;
+    if (mode === "addEntry") {
+      return storedRating ? storedRating : null;
+    }
+    return visitedRestaurantRating;
   });
 
   const dispatch = useDispatch();
+
+  function handleChangeRating(icon) {
+    const index = RATING_ICONS.indexOf(icon);
+    setSelected(index);
+    if (mode === "addEntry") {
+      dispatch(setNewRestaurantRating(index));
+    }
+    if (mode === "editRestaurant") {
+      setVisitedRestaurantRating(index);
+    }
+  }
 
   return (
     <Card>
@@ -20,10 +34,7 @@ const Rating = () => {
       <View style={styles.container}>
         {RATING_ICONS.map(icon => (
           <TouchableOpacity
-            onPress={() => {
-              setSelected(RATING_ICONS.indexOf(icon));
-              dispatch(setNewRestaurantRating(RATING_ICONS.indexOf(icon)));
-            }}
+            onPress={() => handleChangeRating(icon)}
             key={icon}
           >
             <Icon

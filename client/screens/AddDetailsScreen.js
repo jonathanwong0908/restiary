@@ -1,7 +1,6 @@
-import { TouchableOpacity, Text, StyleSheet, Button, View, ScrollView } from 'react-native'
+import { Text, StyleSheet, Button, View, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES, GENERAL } from '../constants/theme';
 import Price from '../components/Price';
@@ -12,6 +11,7 @@ import DatePicker from "../components/DatePicker";
 import { addRestaurant } from '../api/restaurantApi';
 import { resetAllNewRestaurantState } from "../store/addRestaurantSlice";
 import { setRestaurants } from '../store/restaurantSlice';
+import TextIconButton from '../components/UI/TextIconButton';
 
 const AddDetailsScreen = () => {
   const navigation = useNavigation();
@@ -20,7 +20,6 @@ const AddDetailsScreen = () => {
 
   const newRestaurantDetails = useSelector(state => state.addRestaurant);
 
-  console.log(newRestaurantDetails);
   async function submitRestaurant() {
     const response = await addRestaurant(newRestaurantDetails);
     if (response.status == 200) {
@@ -31,6 +30,8 @@ const AddDetailsScreen = () => {
     };
   }
 
+  const MODE = "addEntry";
+
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
       <View style={styles.backButtonContainer}>
@@ -38,16 +39,20 @@ const AddDetailsScreen = () => {
       </View>
       <ScrollView style={{ width: "100%", flex: 1 }} contentContainerStyle={{ alignItems: "center" }}>
         <Text style={styles.title}>Where did you go?</Text>
-        <DatePicker mode="addEntry" />
-        <Price />
-        <Rating mode="addEntry" />
-        <Comment />
-        <AddPhoto mode="addEntry" />
+        <DatePicker mode={MODE} />
+        <Price mode={MODE} />
+        <Rating mode={MODE} />
+        <Comment mode={MODE} />
+        <AddPhoto mode={MODE} />
 
-        <TouchableOpacity style={styles.addEntryButton} onPress={submitRestaurant}>
-          <Text style={{ color: COLORS['neutral-100'], fontSize: SIZES.m, marginRight: 15 }}>Add entry</Text>
-          <Icon name="note-plus-outline" type="material-community" color={COLORS['neutral-100']} />
-        </TouchableOpacity>
+        <TextIconButton
+          iconColor={COLORS['neutral-100']}
+          backgroundColor={COLORS['primary-500']}
+          text="Add entry"
+          name="note-plus-outline"
+          style={styles.addEntryButton}
+          onPress={submitRestaurant}
+        />
       </ScrollView>
     </SafeAreaView>
   )
@@ -68,13 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   addEntryButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginTop: 30,
     marginBottom: 40,
-    padding: 15,
-    borderRadius: 15,
-    backgroundColor: COLORS['primary-500']
   },
 })

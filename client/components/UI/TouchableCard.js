@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { COLORS } from '../constants/theme'
+import { COLORS } from '../../constants/theme'
 
 const TouchableCard = ({ children, onPress }) => {
   return (

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import { COLORS } from '../constants/theme'
+import { COLORS } from '../../constants/theme'
 
 const Card = ({ children, onPress }) => {
   return (

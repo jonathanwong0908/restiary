@@ -27,6 +27,12 @@ export const GENERAL = {
     flex: 1,
     alignItems: "center",
     backgroundColor: COLORS['neutral-700'],
+  },
+  image: {
+    width: 250,
+    height: 250,
+    borderRadius: 15,
+    marginTop: 30,
   }
 }
 

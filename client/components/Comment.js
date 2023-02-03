@@ -1,17 +1,30 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import Card from './Card'
+import Card from './UI/Card'
 import { COLORS, SIZES } from '../constants/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNewRestaurantComment } from '../store/addRestaurantSlice';
 
-const Comment = () => {
+const Comment = ({ mode, visitedRestaurantComment = null, setVisitedRestaurantComment = null }) => {
   const storedComment = useSelector(state => state.addRestaurant.comment);
   const [comment, setComment] = useState(() => {
-    return storedComment ? storedComment : "";
+    if (mode === "addEntry") {
+      return storedComment ? storedComment : "";
+    }
+    return visitedRestaurantComment;
   });
 
   const dispatch = useDispatch();
+
+  function handleChangeComment(text) {
+    setComment(text);
+    if (mode === "addEntry") {
+      dispatch(setNewRestaurantComment(text));
+    }
+    if (mode === "editRestaurant") {
+      setVisitedRestaurantComment(text);
+    }
+  }
 
   return (
     <Card>
@@ -20,10 +33,7 @@ const Comment = () => {
         <TextInput
           style={styles.input}
           value={comment}
-          onChangeText={text => {
-            setComment(text);
-            dispatch(setNewRestaurantComment(text));
-          }}
+          onChangeText={text => handleChangeComment(text)}
         />
       </View>
     </Card>
