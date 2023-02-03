@@ -25,7 +25,7 @@ const RestaurantEntryScreen = ({ route }) => {
       </View>
       <View style={styles.topContainer}>
         <View>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: COLORS['neutral-100'], marginRight: 10 }}>{restaurantName}</Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold", color: COLORS['neutral-100'], marginRight: 10 }}>{restaurantName}</Text>
           <View style={{ flexDirection: "row", marginTop: 8 }}>
             <Text style={{ fontSize: SIZES.m, color: COLORS['neutral-100'] }}>{visitedDate}</Text>
             <Text style={{ marginLeft: 50, fontSize: SIZES.m, color: COLORS['neutral-100'] }}>{`$${restaurant.price}`}</Text>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 15,
+    marginVertical: 15,
     width: "92.5%",
   },
   editButton: {

@@ -6,22 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const CollectionScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ width: "100%" }} contentContainerStyle={{ alignItems: "center" }}>
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-        <Price />
-      </ScrollView>
     </SafeAreaView>
   )
 }
