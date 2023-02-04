@@ -9,30 +9,37 @@ import { setRestaurants } from "../store/restaurantSlice";
 import { getRestaurants } from "../api/restaurantApi";
 
 const RootNavigator = () => {
-  const [stack, setStack] = useState(<SplashScreen />)
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const storedUser = useSelector(state => state.auth.user);
+  const storedToken = useSelector(state => state.auth.token);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setIsLoading(true);
       const user = await AsyncStorage.getItem("user");
       const token = await AsyncStorage.getItem("token");
       if (!user || !token) {
-        return setStack(<AuthStack />)
+        return setIsLoading(false);
       }
       const response = await getRestaurants();
       const restaurants = response.data;
       dispatch(setRestaurants(restaurants));
       dispatch(setLogin({ user, token }));
-      return setStack(<MainNavigator />);
+      setIsLoading(false);
     }
     fetchUserData();
-  }, [])
+  }, []);
+
+  if (isLoading) {
+    return (<SplashScreen />)
+  }
 
   return (
     <>
-      {isAuthenticated ? <MainNavigator /> : stack}
+      {storedUser && storedToken ? <MainNavigator /> : <AuthStack />}
     </>
   )
 }

@@ -41,7 +41,7 @@ const AddEntryScreen = () => {
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
       {/* <StatusBar barStyle="light-content" /> */}
-      <Text style={styles.title}>Where did you go?</Text>
+      <Text style={GENERAL.title}>Where did you go?</Text>
 
       <GooglePlacesAutocomplete
         disableScroll={true}
@@ -104,12 +104,6 @@ const AddEntryScreen = () => {
 export default AddEntryScreen
 
 const styles = StyleSheet.create({
-  title: {
-    marginVertical: 15,
-    fontSize: SIZES.l,
-    fontWeight: "bold",
-    color: COLORS['neutral-100']
-  },
   mapContainer: {
     height: 350,
     width: "92.5%"

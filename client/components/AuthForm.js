@@ -25,13 +25,12 @@ const AuthForm = ({ screen }) => {
   async function handleLogin() {
     if (!username.length || !password.length) return;
     const response = await userLogin({ username, password });
-    let { token, user } = response.data;
+    const { token } = response.data;
+    const user = response.data.user.username;
     if (!user || !token) return;
+    await AsyncStorage.setItem("token", JSON.stringify(token));
+    await AsyncStorage.setItem("user", JSON.stringify(user));
     dispatch(setLogin({ token, user }));
-    token = JSON.stringify(token);
-    user = JSON.stringify(user);
-    await AsyncStorage.setItem("token", token);
-    await AsyncStorage.setItem("user", user);
   }
 
   return (

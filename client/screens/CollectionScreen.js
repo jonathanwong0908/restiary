@@ -13,7 +13,7 @@ const CollectionScreen = () => {
 
   return (
     <SafeAreaView style={GENERAL.mainContainer}>
-      <Text style={styles.title}>Visited Restaurants</Text>
+      <Text style={GENERAL.title}>Visited Restaurants</Text>
       <View style={styles.mapContainer}>
         <Map mode="viewAllRestaurants" />
       </View>
@@ -36,12 +36,6 @@ const CollectionScreen = () => {
 export default CollectionScreen
 
 const styles = StyleSheet.create({
-  title: {
-    marginVertical: 15,
-    fontSize: SIZES.l,
-    fontWeight: "bold",
-    color: COLORS['neutral-100']
-  },
   mapContainer: {
     marginBottom: 20,
     width: "92.5%",

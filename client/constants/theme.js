@@ -28,6 +28,12 @@ export const GENERAL = {
     alignItems: "center",
     backgroundColor: COLORS['neutral-700'],
   },
+  title: {
+    marginVertical: 15,
+    fontSize: SIZES.l,
+    fontWeight: "bold",
+    color: COLORS['neutral-100']
+  },
   image: {
     width: 250,
     height: 250,
