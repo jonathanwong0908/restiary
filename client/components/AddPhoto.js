@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
     backgroundColor: COLORS['neutral-700'],
-    opacity: 0.6
+    opacity: 0.8
   }
 })

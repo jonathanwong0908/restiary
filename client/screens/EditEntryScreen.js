@@ -18,7 +18,8 @@ const EditEntryScreen = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const restaurant = route.params;
+  const restaurant = route.params.restaurant;
+  const origin = route.params.origin;
   const [restaurantName, setRestaurantName] = useState(restaurant.name);
   const [restaurantLocation, setRestaurantLocation] = useState(restaurant.location);
   const [date, setDate] = useState(restaurant.visitedDate);
@@ -44,11 +45,15 @@ const EditEntryScreen = ({ route }) => {
 
   async function handleUpdateRestaurant() {
     const response = await updateRestaurant(newRestaurantDetails);
-    console.log(response);
     if (response.status == 200) {
       const restaurants = response.data;
       dispatch(setRestaurants(restaurants));
-      navigation.navigate("Entries");
+      if (origin === "entries") {
+        navigation.navigate("Entries");
+      }
+      if (origin === "calendar") {
+        navigation.navigate("MainCalendar");
+      }
     }
   }
 
@@ -57,7 +62,12 @@ const EditEntryScreen = ({ route }) => {
     if (response.status == 200) {
       const restaurants = response.data;
       dispatch(setRestaurants(restaurants));
-      navigation.navigate("Entries");
+      if (origin === "entries") {
+        navigation.navigate("Entries");
+      }
+      if (origin === "calendar") {
+        navigation.navigate("MainCalendar");
+      }
     }
   }
 
@@ -102,7 +112,7 @@ const EditEntryScreen = ({ route }) => {
         onBackdropPress={() => setModalVisible(false)}
       >
         <View style={styles.modal}>
-          <Button title="Delete" onPress={handleDeleteRestaurant} />
+          <Button title="Delete Entry" onPress={handleDeleteRestaurant} />
           <Button title="Cancel" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
@@ -141,6 +151,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
     backgroundColor: COLORS['neutral-700'],
-    opacity: 0.6
+    opacity: 0.8
   }
 })

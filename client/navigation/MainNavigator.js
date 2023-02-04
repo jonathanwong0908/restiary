@@ -6,10 +6,10 @@ import { Icon } from "@rneui/themed";
 import { View, StyleSheet } from "react-native";
 import SettingScreen from "../screens/SettingScreen";
 import CollectionScreen from "../screens/CollectionScreen";
-import CalendarScreen from "../screens/CalendarScreen";
 import EntriesStack from "./EntriesStack";
 import AddEntryStack from "./AddEntryStack";
 import { COLORS } from "../constants/theme";
+import CalendarStack from "./CalendarStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -63,7 +63,7 @@ const MainNavigator = () => {
             />
             <Tab.Screen
               name="Calendar"
-              component={CalendarScreen}
+              component={CalendarStack}
               options={{
                 tabBarIcon: ({ color }) => (<Icon name="calendar-blank-outline" type="material-community" color={color} />)
               }}

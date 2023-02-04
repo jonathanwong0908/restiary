@@ -4,7 +4,7 @@ import TouchableCard from './UI/TouchableCard';
 import { RATING_ICONS, COLORS, SIZES } from '../constants/theme';
 import { useNavigation } from '@react-navigation/native';
 
-const EntryContainer = ({ restaurant }) => {
+const EntryContainer = ({ restaurant, origin }) => {
   const navigation = useNavigation();
 
   const restaurantName = restaurant.name.split(",")[0];
@@ -13,7 +13,7 @@ const EntryContainer = ({ restaurant }) => {
   const photos = restaurant.photos;
 
   function handleRestaurantPress() {
-    navigation.navigate("RestaurantEntry", restaurant);
+    navigation.navigate("RestaurantEntry", { restaurant, origin });
   }
 
   return (

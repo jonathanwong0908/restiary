@@ -44,3 +44,19 @@ export const RATING_ICONS =
     "emoticon-cry-outline",
     "emoticon-dead-outline"
   ];
+
+
+export const CALENDAR_THEME = {
+  calendarBackground: COLORS['neutral-600'],
+  monthTextColor: COLORS['neutral-100'],
+  todayTextColor: COLORS['neutral-100'],
+  todayBackgroundColor: COLORS['neutral-500'],
+  dayTextColor: COLORS['neutral-100'],
+  arrowColor: COLORS['primary-500'],
+  textDisabledColor: COLORS['neutral-400'],
+  selectedDayBackgroundColor: COLORS['primary-500'],
+  selectedDayTextColor: COLORS['neutral-100'],
+  dotColor: COLORS['primary-500'],
+  textMonthFontSize: SIZES.xl,
+  textMonthFontWeight: "bold",
+}

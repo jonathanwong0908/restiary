@@ -8,14 +8,15 @@ import TextIconButton from '../components/UI/TextIconButton';
 const RestaurantEntryScreen = ({ route }) => {
   const navigation = useNavigation();
 
-  const restaurant = route.params;
+  const restaurant = route.params.restaurant;
+  const origin = route.params.origin;
   const restaurantName = restaurant.name.split(",")[0];
   const icon = RATING_ICONS[restaurant.rating];
   const visitedDate = getFormattedDate(new Date(restaurant.visitedDate));
   const photos = restaurant.photos;
 
   function goToEditEntryScreen() {
-    navigation.navigate("EditEntry", restaurant);
+    navigation.navigate("EditEntry", { restaurant, origin });
   }
 
   return (

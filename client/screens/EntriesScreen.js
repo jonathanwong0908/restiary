@@ -21,7 +21,7 @@ const EntriesScreen = () => {
         style={{ width: "92.5%" }}
         contentContainerStyle={{ width: "100%", paddingBottom: 50 }}
         data={restaurants}
-        renderItem={({ item }) => <EntryContainer restaurant={item} />}
+        renderItem={({ item }) => <EntryContainer restaurant={item} origin="entries" />}
         keyExtractor={item => item._id}
       />
     </SafeAreaView>
