@@ -44,7 +44,7 @@ const EntryContainer = ({ restaurant }) => {
             />
           </View>
         </View>
-        {photos.length > 0 ? photos.map(imageUri => {
+        {photos.length ? photos.map(imageUri => {
           return (
             <Image source={{ uri: imageUri }} style={styles.image} key={imageUri} />
           )

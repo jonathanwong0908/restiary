@@ -7,7 +7,7 @@ const initialState = {
   rating: null,
   price: null,
   comment: null,
-  photo: null
+  photo: []
 }
 
 export const addRestaurantSlice = createSlice({
