@@ -35,6 +35,7 @@ const AuthForm = ({ screen }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <KeyboardAvoidingView style={{ width: "100%", justifyContent: "center" }}>
         <Text style={styles.title}>{screen === "login" ? "Login" : "Signup"}</Text>
         <View style={styles.inputContainer}>

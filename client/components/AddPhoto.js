@@ -14,7 +14,11 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
     if (mode === "addEntry") {
       return storedPhotos ? storedPhotos : [];
     }
-    return visitedRestaurantPhotos;
+
+    if (mode === "editRestaurant") {
+      return visitedRestaurantPhotos ? visitedRestaurantPhotos : [];
+    }
+    return [];
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,22 +26,27 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
 
   const dispatch = useDispatch();
 
-  function toggleModal() {
-    setModalVisible(!isModalVisible);
-  }
-
   async function pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    })
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      })
 
-    if (result.canceled) return;
-    const imageUri = result.assets[0].uri;
-    setImages(prevImages => [...prevImages, imageUri]);
-    setVisitedRestaurantPhotos(prevImage => [...prevImage, imageUri]);
+      if (result.canceled) return;
+      const imageUri = result.assets[0].uri;
+      setImages(prevImages => [...prevImages, imageUri]);
+      if (mode === "addEntry") {
+        dispatch(setNewRestaurantPhoto(imageUri));
+      }
+      if (mode === "editRestaurant") {
+        setVisitedRestaurantPhotos(imageUri);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function deleteImage(imageUri) {
@@ -61,7 +70,7 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
 
       {images.length > 0 ? images.map(image => (
         <TouchableOpacity key={image} onPress={() => {
-          toggleModal();
+          setModalVisible(true);
           setSelectedImage(image);
         }}>
           <Image source={{ uri: image }} style={GENERAL.image} key={image} />
