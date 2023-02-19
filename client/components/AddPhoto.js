@@ -12,7 +12,7 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
 
   const [images, setImages] = useState(() => {
     if (mode === "addEntry") {
-      return storedPhotos ? storedPhotos : [];
+      return storedPhotos.length ? storedPhotos : [];
     }
 
     if (mode === "editRestaurant") {
@@ -39,7 +39,8 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
       const imageUri = result.assets[0].uri;
       setImages(prevImages => [...prevImages, imageUri]);
       if (mode === "addEntry") {
-        dispatch(setNewRestaurantPhoto(imageUri));
+        const newImages = storedPhotos.length ? [...storedPhotos, imageUri] : [imageUri];
+        dispatch(setNewRestaurantPhoto(newImages));
       }
       if (mode === "editRestaurant") {
         setVisitedRestaurantPhotos(imageUri);
@@ -50,7 +51,7 @@ const AddPhoto = ({ mode, visitedRestaurantPhotos = null, setVisitedRestaurantPh
   }
 
   function deleteImage(imageUri) {
-    const newImages = images.length <= 1 ? [] : images => images.filter(image => image !== imageUri);
+    const newImages = images.length <= 1 ? [] : images.filter(image => image !== imageUri);
     setImages(newImages)
     if (mode === "addEntry") {
       dispatch(setNewRestaurantPhoto(newImages));

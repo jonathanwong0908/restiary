@@ -33,7 +33,9 @@ export const addRestaurantSlice = createSlice({
       state.comment = action.payload;
     },
     setNewRestaurantPhoto: (state, action) => {
-      state.photo = [...state.photo, action.payload];
+      console.log(state.photo)
+      // state.photo = [...state.photo, action.payload];
+      state.photo = action.payload;
     },
     resetAllNewRestaurantState: (state) => {
       state.name = null;
@@ -42,7 +44,7 @@ export const addRestaurantSlice = createSlice({
       state.rating = null;
       state.price = null;
       state.comment = null;
-      state.photo = null;
+      state.photo = [];
     }
   }
 })
