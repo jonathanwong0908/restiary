@@ -3,7 +3,6 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
-  console.log(req.body);
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -20,7 +19,6 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log(username, password);
     const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ message: "User does not exist" });
     const isMatch = await bcrypt.compare(password, user.password);

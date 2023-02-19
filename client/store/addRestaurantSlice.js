@@ -33,8 +33,6 @@ export const addRestaurantSlice = createSlice({
       state.comment = action.payload;
     },
     setNewRestaurantPhoto: (state, action) => {
-      console.log(state.photo)
-      // state.photo = [...state.photo, action.payload];
       state.photo = action.payload;
     },
     resetAllNewRestaurantState: (state) => {
